@@ -35,7 +35,7 @@ object Server extends App with LazyLogging {
             complete(successMessage)
 
           case Left(er) =>
-            val errorMessage = s"Json parser failed for input string ${er.message}"
+            val errorMessage = s"Json parser failed for input string with error: ${er.message}"
             logger.error(errorMessage)
             reject(ValidationRejection(errorMessage, Option(er.error)))
         }
