@@ -4,20 +4,20 @@ import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.ValidationRejection
-import akka.stream.ActorMaterializer
+import akka.stream.{ActorMaterializer, ActorMaterializerSettings}
 import au.com.cba.json.parser.JsonParser
 import scala.concurrent.ExecutionContext
-import scala.io.StdIn
 
 object Server extends App {
+
   val host = "0.0.0.0"
   val port = 9000
 
   implicit val system: ActorSystem = ActorSystem("json-parser")
   implicit val executor: ExecutionContext = system.dispatcher
-  implicit val materializer: ActorMaterializer = ActorMaterializer()
+  implicit val materializer: ActorMaterializer = ActorMaterializer(ActorMaterializerSettings(system))
 
-  val route = path("api" / "parser") {
+  val allRoutes = path("api" / "parser") {
     get {
       complete("Welcome to json parser api!")
     }
@@ -32,12 +32,6 @@ object Server extends App {
     }
   }
 
-  val bindingFuture = Http().bindAndHandle(route, host, port)
-  println(s"Server online at http://$host:$port/\nPress RETURN to stop...")
-
-  StdIn.readLine()
-
-  bindingFuture
-    .flatMap(_.unbind())
-    .onComplete(_ => system.terminate())
+  val bindingFuture = Http().bindAndHandle(allRoutes, host, port)
+  println(s"Server online at http://$host:$port/")
 }

@@ -33,6 +33,7 @@ lazy val dependencies = new {
   val enumeratumVersion = "1.5.13"
   val akkaVersion = "2.5.13"
   val akkaHttpVersion = "10.1.3"
+  val logBackVersion = "1.2.3"
 
   //core dependencies
   val circe = Seq(
@@ -47,6 +48,7 @@ lazy val dependencies = new {
     "com.typesafe.akka" %% "akka-stream" % akkaVersion,
     "com.typesafe.akka" %% "akka-http" % akkaHttpVersion
   )
+  val logBack = "ch.qos.logback" % "logback-classic" % logBackVersion
 
   // test dependencies
   val scalaTest = "org.scalatest" %% "scalatest" % scalaTestVersion
@@ -55,5 +57,13 @@ lazy val dependencies = new {
 lazy val allDependencies = dependencies.circe ++ Seq(
   dependencies.scalaTest,
   dependencies.circeConfig,
-  dependencies.enumeratum
+  dependencies.enumeratum,
+  dependencies.logBack
 ) ++ dependencies.akka
+
+packageName in Docker := "json-parser-api"
+version in Docker := "latest"
+dockerExposedPorts in Docker := Seq(9000)
+dockerRepository := Some("lightbend")
+dockerBaseImage := "java"
+enablePlugins(JavaAppPackaging, DockerPlugin)
