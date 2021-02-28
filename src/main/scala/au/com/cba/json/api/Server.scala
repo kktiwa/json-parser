@@ -7,9 +7,10 @@ import akka.http.scaladsl.server.ValidationRejection
 import akka.stream.{ActorMaterializer, ActorMaterializerSettings}
 import au.com.cba.json.parser.JsonParser
 import com.typesafe.config.ConfigFactory
+import com.typesafe.scalalogging.LazyLogging
 import scala.concurrent.ExecutionContext
 
-object Server extends App {
+object Server extends App with LazyLogging {
 
   val config = ConfigFactory.load()
   val host = config.getString("parser.api.host")
@@ -20,20 +21,28 @@ object Server extends App {
   implicit val materializer: ActorMaterializer = ActorMaterializer(ActorMaterializerSettings(system))
 
   val allRoutes = path("api" / "parser") {
+
     get {
-      complete("Welcome to json parser api!")
+      complete("Welcome to Json Parser API!")
     }
 
     post {
       entity(as[String]) { jsonString =>
         JsonParser.parse(jsonString) match {
-          case Right(x) => complete(s"Json parser succeeded for JSON string.It's a type of ${x.getClass}")
-          case Left(er) => reject(ValidationRejection(s"Json parser failed for JSON ${er.message}", Option(er.error)))
+          case Right(x) =>
+            val successMessage = s"Json parser succeeded for input string. It's a type of ${x.getClass}"
+            logger.info(successMessage)
+            complete(successMessage)
+
+          case Left(er) =>
+            val errorMessage = s"Json parser failed for input string ${er.message}"
+            logger.error(errorMessage)
+            reject(ValidationRejection(errorMessage, Option(er.error)))
         }
       }
     }
   }
 
   val bindingFuture = Http().bindAndHandle(allRoutes, host, port)
-  println(s"Server online at http://$host:$port/")
+  logger.info(s"Server online at http://$host:$port/")
 }
