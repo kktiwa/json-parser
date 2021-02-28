@@ -64,8 +64,9 @@ lazy val allDependencies = dependencies.circe ++ Seq(
   dependencies.typesafeLog
 ) ++ dependencies.akka
 
+
 packageName in Docker := "json-parser-api"
-version in Docker := "latest"
+dockerUpdateLatest := true
 dockerExposedPorts in Docker := Seq(9000)
 dockerRepository := Some("lightbend")
 dockerBaseImage := "java"
