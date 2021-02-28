@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+
+  json-parser-api:
+    image: lightbend/json-parser-api:latest
+    hostname: localhost
+    ports:
+      - 9000:9000
+    command: "bash -c 'docker run'"
