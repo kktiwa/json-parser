@@ -90,7 +90,10 @@ class JsonParserSpec extends FlatSpec
     val result = JsonParser.parse(jsonString)
     inside(result.right.get) {
       case Candy(_, ingredients) =>
-        ingredients should contain theSameElementsAs Set(ArtificialIngredient("artificial"), NaturalIngredient("natural"))
+        ingredients should contain theSameElementsAs Set(
+          ArtificialIngredient("artificial"),
+          NaturalIngredient("natural")
+        )
     }
   }
 
@@ -146,7 +149,11 @@ class JsonParserSpec extends FlatSpec
     val result = JsonParser.parse(jsonString)
     inside(result.right.get) {
       case Candy(_, ingredients) =>
-        ingredients should contain theSameElementsAs Set(ArtificialIngredient("artificial"), NaturalIngredient("natural"), VeganIngredient("vegan"))
+        ingredients should contain theSameElementsAs Set(
+          ArtificialIngredient("artificial"),
+          NaturalIngredient("natural"),
+          VeganIngredient("vegan")
+        )
     }
   }
 
@@ -165,7 +172,10 @@ class JsonParserSpec extends FlatSpec
     inside(result.right.get) {
       case Fruit(price, nutrients) =>
         price shouldBe 3.5
-        nutrients should contain theSameElementsAs Seq("iron", "calcium")
+        nutrients should contain theSameElementsAs Seq(
+          "iron",
+          "calcium"
+        )
     }
   }
 
