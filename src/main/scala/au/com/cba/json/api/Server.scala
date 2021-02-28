@@ -21,11 +21,6 @@ object Server extends App with LazyLogging {
   implicit val materializer: ActorMaterializer = ActorMaterializer(ActorMaterializerSettings(system))
 
   val allRoutes = path("api" / "parser") {
-
-    get {
-      complete("Welcome to Json Parser API!")
-    }
-
     post {
       entity(as[String]) { jsonString =>
         JsonParser.parse(jsonString) match {
