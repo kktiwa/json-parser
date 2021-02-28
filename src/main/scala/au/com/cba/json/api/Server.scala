@@ -6,12 +6,14 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.ValidationRejection
 import akka.stream.{ActorMaterializer, ActorMaterializerSettings}
 import au.com.cba.json.parser.JsonParser
+import com.typesafe.config.ConfigFactory
 import scala.concurrent.ExecutionContext
 
 object Server extends App {
 
-  val host = "0.0.0.0"
-  val port = 9000
+  val config = ConfigFactory.load()
+  val host = config.getString("parser.api.host")
+  val port = config.getInt("parser.api.port")
 
   implicit val system: ActorSystem = ActorSystem("json-parser")
   implicit val executor: ExecutionContext = system.dispatcher
@@ -25,8 +27,8 @@ object Server extends App {
     post {
       entity(as[String]) { jsonString =>
         JsonParser.parse(jsonString) match {
-          case Right(_) => complete(s"Json parser succeeded for JSON $jsonString")
-          case Left(er) => reject(ValidationRejection(s"Json parser failed for JSON $jsonString", Option(er.error)))
+          case Right(x) => complete(s"Json parser succeeded for JSON string.It's a type of ${x.getClass}")
+          case Left(er) => reject(ValidationRejection(s"Json parser failed for JSON ${er.message}", Option(er.error)))
         }
       }
     }
