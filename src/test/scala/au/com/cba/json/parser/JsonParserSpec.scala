@@ -3,7 +3,8 @@ package au.com.cba.json.parser
 import au.com.cba.json.models._
 import org.scalatest.{EitherValues, FlatSpec, Inside, Matchers}
 
-class JsonParserSpec extends FlatSpec with Matchers
+class JsonParserSpec extends FlatSpec
+  with Matchers
   with EitherValues
   with Inside {
 
