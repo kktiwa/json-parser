@@ -15,17 +15,16 @@ docker images. Perform the following steps in order to run this project via dock
 sbt docker:publishLocal
 ```
 
-2. To bring up the parser API from the docker container, run the below command:
+2. To bring up the parser API within a docker container, run the below command from the project root directory:
 
 ```
-docker-compose -f docker-compose.yml up -d
+docker-compose up -d
 ```
 
-3. If you don't have any other docker containers running, you can shut down the ones for this project with the following
-   command:
+3. You can stop the running container using the following command:
 
 ```
-docker stop $(docker ps -aq)
+docker-compose rm --stop
 ```
 
 4. Finally, if you want to remove all docker images:
