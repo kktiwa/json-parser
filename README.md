@@ -21,7 +21,7 @@ sbt docker:publishLocal
 docker-compose up -d
 ```
 
-3. You can stop the running container using the following command:
+3. You can stop the running container using the following command from the project root directory:
 
 ```
 docker-compose rm --stop
@@ -40,10 +40,10 @@ you wish to run without using docker.
 
 ## Testing JSON string inputs
 
-To test whether a JSON string input was valid or not not, you can send a POST request to the running API at:
+To test whether a JSON string input was valid or not, you can send a POST request to the running API at:
 
 ```
 http://localhost:9000/api/parser
 ```
 
-You can change the application host and port via `application.conf`.
+You can change the application host and port via resources file `application.conf`.
