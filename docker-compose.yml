@@ -3,7 +3,7 @@ version: "3"
 services:
 
   json-parser-api:
-    image: lightbend/json-parser-api:latest
+    image: cba/json-parser-api:latest
     hostname: localhost
     ports:
       - 9000:9000

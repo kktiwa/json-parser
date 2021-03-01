@@ -68,6 +68,6 @@ lazy val allDependencies = dependencies.circe ++ Seq(
 packageName in Docker := "json-parser-api"
 dockerUpdateLatest := true
 dockerExposedPorts in Docker := Seq(9000)
-dockerRepository := Some("lightbend")
+dockerRepository := Some("cba")
 dockerBaseImage := "java"
 enablePlugins(JavaAppPackaging, DockerPlugin)
